@@ -8,7 +8,7 @@
     <artifactId>bowling-system</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-        <dependencies>
+    <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

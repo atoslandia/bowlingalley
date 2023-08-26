@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,10 +13,6 @@ public class Lane {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int number;
-
-	@OneToOne
-	@JoinColumn(name = "id_customer")
-	private Customer laneRenter;
 
 	private boolean available;
 
@@ -32,14 +26,6 @@ public class Lane {
 
 	public void setNumber(int number) {
 		this.number = number;
-	}
-
-	public Customer getLaneRenter() {
-		return laneRenter;
-	}
-
-	public void setLaneRenter(Customer laneRenter) {
-		this.laneRenter = laneRenter;
 	}
 
 	public boolean isAvailable() {

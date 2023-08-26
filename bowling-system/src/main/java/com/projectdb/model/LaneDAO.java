@@ -13,10 +13,16 @@ public class LaneDAO {
 		this.entityManager = Storage.getInstance().getEntityManager();
 	}
 
+	public Lane getLane(Lane lane) {
+		return entityManager.find(Lane.class, lane.getNumber());
+	}
+
 	public void addLane(Lane newLane) {
-		entityManager.getTransaction().begin();
 		entityManager.persist(newLane);
-		entityManager.getTransaction().commit();
+	}
+
+	public void updateLane(Lane lane) {
+		entityManager.merge(lane);
 	}
 
 	public List<Lane> getLanesAvailable() {

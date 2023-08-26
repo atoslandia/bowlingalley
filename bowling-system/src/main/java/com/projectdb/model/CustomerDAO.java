@@ -13,6 +13,10 @@ public class CustomerDAO {
 		this.entityManager = Storage.getInstance().getEntityManager();
 	}
 
+	public Customer getCustomer(Customer customer) {
+		return entityManager.find(Customer.class, customer.getCpf());
+	}
+
 	public void addCustomer(Customer newCustomer) {
 		entityManager.getTransaction().begin();
 		entityManager.persist(newCustomer);
