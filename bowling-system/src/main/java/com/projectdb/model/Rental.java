@@ -48,6 +48,7 @@ public class Rental {
 	) {
 		this.customer = customer;
 		this.lane = lane;
+		lane.setAvailable(false);
 		this.rentalDateTime = rentalDateTime;
 		this.returnDateTime = rentalDateTime.plusHours(2);
 	}

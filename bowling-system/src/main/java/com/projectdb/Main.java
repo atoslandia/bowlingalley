@@ -71,6 +71,9 @@ public class Main {
 			LocalDateTime.of(2025, 1, 1, 23, 00)
 		);
 
+		laneDAO.updateLane(pista3);
+		laneDAO.updateLane(pista2);
+
 		rentalDAO.addRental(rental1);
 		rentalDAO.addRental(rental2);
 
