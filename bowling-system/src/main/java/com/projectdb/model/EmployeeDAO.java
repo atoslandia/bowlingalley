@@ -5,24 +5,24 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-public class CustomerDAO {
+public class EmployeeDAO {
 
 	private EntityManager entityManager;
 
-	public CustomerDAO() {
+	public EmployeeDAO() {
 		this.entityManager = Storage.getInstance().getEntityManager();
 	}
 
-	public void addCustomer(Customer newCustomer) {
+	public void addEmployee(Employee newEmployee) {
 		entityManager.getTransaction().begin();
-		entityManager.persist(newCustomer);
+		entityManager.persist(newEmployee);
 		entityManager.getTransaction().commit();
 	}
 
-	public List<Customer> getAllCustomers() {
-		TypedQuery<Customer> query = entityManager.createQuery(
-			"SELECT c FROM Customer c",
-			Customer.class
+	public List<Employee> getAllEmployee() {
+		TypedQuery<Employee> query = entityManager.createQuery(
+			"SELECT e FROM Employee e",
+			Employee.class
 		);
 		return query.getResultList();
 	}
