@@ -8,7 +8,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "persons", uniqueConstraints = @UniqueConstraint(columnNames = "cpf"))
+@Table(
+	name = "persons",
+	uniqueConstraints = @UniqueConstraint(columnNames = "cpf")
+)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
 

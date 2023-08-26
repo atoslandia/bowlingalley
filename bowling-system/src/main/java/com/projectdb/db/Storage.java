@@ -8,10 +8,10 @@ public final class Storage {
 
 	private static Storage instance;
 
-	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
-		"bowlinglane"
-	);
-	private EntityManager entityManager = entityManagerFactory.createEntityManager();
+	private EntityManagerFactory entityManagerFactory =
+		Persistence.createEntityManagerFactory("bowlinglane");
+	private EntityManager entityManager =
+		entityManagerFactory.createEntityManager();
 
 	private Storage() {}
 
@@ -24,5 +24,11 @@ public final class Storage {
 
 	public EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	public void saveOrUpdate(Runnable action) {
+		entityManager.getTransaction().begin();
+		action.run();
+		entityManager.getTransaction().commit();
 	}
 }

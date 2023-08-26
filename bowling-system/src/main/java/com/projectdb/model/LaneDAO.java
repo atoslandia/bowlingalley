@@ -1,40 +1,49 @@
 package com.projectdb.model;
 
 import com.projectdb.db.Storage;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class LaneDAO {
 
-	private EntityManager entityManager;
+	private Storage storage;
 
 	public LaneDAO() {
-		this.entityManager = Storage.getInstance().getEntityManager();
+		this.storage = Storage.getInstance();
 	}
 
 	public Lane getLane(Lane lane) {
-		return entityManager.find(Lane.class, lane.getNumber());
+		return storage
+			.getEntityManager()
+			.find(Lane.class, lane.getNumber());
 	}
 
 	public void addLane(Lane newLane) {
-		entityManager.persist(newLane);
+		storage.saveOrUpdate(() ->
+			storage.getEntityManager().persist(newLane)
+		);
 	}
 
 	public void updateLane(Lane lane) {
-		entityManager.merge(lane);
+		storage.saveOrUpdate(() ->
+			storage.getEntityManager().merge(lane)
+		);
 	}
 
 	public List<Lane> getLanesAvailable() {
-		TypedQuery<Lane> query = entityManager.createQuery(
-			"SELECT l FROM Lane l WHERE available = true",
-			Lane.class
-		);
+		TypedQuery<Lane> query = storage
+			.getEntityManager()
+			.createQuery(
+				"SELECT l FROM Lane l WHERE available = true",
+				Lane.class
+			);
 		return query.getResultList();
 	}
 
 	public List<Lane> getAllLanes() {
-		TypedQuery<Lane> query = entityManager.createQuery("SELECT l FROM Lane l", Lane.class);
+		TypedQuery<Lane> query = storage
+			.getEntityManager()
+			.createQuery("SELECT l FROM Lane l", Lane.class);
 		return query.getResultList();
 	}
 }

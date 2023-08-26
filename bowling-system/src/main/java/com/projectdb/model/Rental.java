@@ -1,5 +1,6 @@
 package com.projectdb.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,13 +10,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rentals")
+@Table(
+	name = "rentals",
+	uniqueConstraints = @UniqueConstraint(columnNames = "lane_id")
+)
 public class Rental {
 
 	@Id
+	@Column(name = "rental_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -28,27 +34,26 @@ public class Rental {
 	private Customer customer;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime rentalDate;
+	@Column(name = "rental_timestamp")
+	private LocalDateTime rentalDateTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime returnDate;
+	@Column(name = "retunr_timestamp")
+	private LocalDateTime returnDateTime;
 
-	public Rental(Customer customer, Lane lane) {
+	public Rental(
+		Customer customer,
+		Lane lane,
+		LocalDateTime rentalDateTime
+	) {
 		this.customer = customer;
 		this.lane = lane;
-		this.rentalDate = LocalDateTime.now();
+		this.rentalDateTime = rentalDateTime;
+		this.returnDateTime = rentalDateTime.plusHours(2);
 	}
 
 	// constructor for JPA
 	protected Rental() {}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Lane getLane() {
 		return lane;
@@ -66,19 +71,37 @@ public class Rental {
 		this.customer = customer;
 	}
 
-	public LocalDateTime getRentalDate() {
-		return rentalDate;
+	public LocalDateTime getRentalDateTime() {
+		return rentalDateTime;
 	}
 
-	public void setRentalDate(LocalDateTime rentalDate) {
-		this.rentalDate = rentalDate;
+	public void setRentalDateTime(LocalDateTime rentalDateTime) {
+		this.rentalDateTime = rentalDateTime;
 	}
 
-	public LocalDateTime getReturnDate() {
-		return returnDate;
+	public LocalDateTime getReturnDateTime() {
+		return returnDateTime;
 	}
 
-	public void setReturnDate(LocalDateTime returnDate) {
-		this.returnDate = returnDate;
+	public void setReturnDateTime(LocalDateTime returnDate) {
+		this.returnDateTime = returnDate;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return (
+			"alugado por: " +
+			getCustomer() +
+			"\nna pista: " +
+			getLane()
+		);
 	}
 }

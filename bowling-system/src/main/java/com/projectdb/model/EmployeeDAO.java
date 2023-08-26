@@ -1,29 +1,27 @@
 package com.projectdb.model;
 
 import com.projectdb.db.Storage;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class EmployeeDAO {
 
-	private EntityManager entityManager;
+	private Storage storage;
 
 	public EmployeeDAO() {
-		this.entityManager = Storage.getInstance().getEntityManager();
+		this.storage = Storage.getInstance();
 	}
 
 	public void addEmployee(Employee newEmployee) {
-		entityManager.getTransaction().begin();
-		entityManager.persist(newEmployee);
-		entityManager.getTransaction().commit();
+		storage.saveOrUpdate(() ->
+			storage.getEntityManager().persist(newEmployee)
+		);
 	}
 
 	public List<Employee> getAllEmployee() {
-		TypedQuery<Employee> query = entityManager.createQuery(
-			"SELECT e FROM Employee e",
-			Employee.class
-		);
+		TypedQuery<Employee> query = storage
+			.getEntityManager()
+			.createQuery("SELECT e FROM Employee e", Employee.class);
 		return query.getResultList();
 	}
 }
